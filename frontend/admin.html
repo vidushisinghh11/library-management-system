@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Management Dashboard</title>
+    <link rel="stylesheet" href="styles2.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📚 EasyLib: Library Organizer</h1>
+        <div class="dashboard">
+            <!-- Add Book Section -->
+            <div class="section add-section">
+                <h3>Add a Book</h3>
+                <input type="text" id="bookName" placeholder="Enter Book Name">
+                <input type="text" id="authorName" placeholder="Enter Author Name">
+                <button onclick="addBook()" class="add-btn">Add Book</button>
+            </div>
+            
+            <!-- Update Book Section -->
+            <div class="section update-section">
+                <h3>Update a Book</h3>
+                <input type="text" id="updateBookName" placeholder="Enter Book Name to Update">
+                <input type="text" id="newBookName" placeholder="New Book Name">
+                <input type="text" id="newAuthorName" placeholder="New Author Name">
+                <button onclick="updateBook()" class="update-btn">Update Book</button>
+            </div>
+            
+            <!-- Delete Book Section -->
+            <div class="section delete-section">
+                <h3>Delete a Book</h3>
+                <input type="text" id="deleteBookName" placeholder="Enter Book Name to Delete">
+                <button onclick="deleteBookByName()" class="delete-btn">Delete Book</button>
+            </div>
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>📖 Book Name</th>
+                    <th>✍ Author</th>
+                    <th>⚙ Actions</th>
+                </tr>
+            </thead>
+            <tbody id="bookList">
+                <!-- Book entries will appear here -->
+            </tbody>
+        </table>
+    </div>
+    
+    <script src="script2.js"></script>
+</body>
+</html>
