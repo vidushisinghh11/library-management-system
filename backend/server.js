@@ -50,7 +50,7 @@ app.post('/books', (req, res) => {
 // API to Delete a Book
 app.delete('/books/:id', (req, res) => {
     const { id } = req.params;
-    const sql = 'DELETE FROM books WHERE id = ?';
+    const sql = 'DELETE FROM books WHERE BookID = ?';
     db.query(sql, [id], (err, result) => {
         if (err) {
             res.status(500).send(err);
@@ -59,6 +59,7 @@ app.delete('/books/:id', (req, res) => {
         }
     });
 });
+
 
 // Start Server
 app.listen(5000, () => {
