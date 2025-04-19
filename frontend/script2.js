@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/books";
+const API_BASE = "http://localhost:5000/api/books";
 
 document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".add-btn").addEventListener("click", addBook);
@@ -40,7 +40,7 @@ function addBook() {
         body: JSON.stringify({
             Title,
             Author,
-            Genre: "",             // Optional or extend later
+            // Genre: "",             // Optional or extend later
             ISBN: `TEMP-${Date.now()}`, // Temp ISBN
             PublishedYear: 2024,   // Default
             Quantity: 1            // Default quantity

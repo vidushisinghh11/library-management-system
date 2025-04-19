@@ -1,47 +1,53 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const loginForm = document.getElementById("loginForm");
-    const dashboard = document.getElementById("dashboard");
-    const adminPanel = document.getElementById("adminPanel");
-    const userPanel = document.getElementById("userPanel");
-    const userRoleSpan = document.getElementById("userRole");
-    const registerForm = document.getElementById("registerForm");
-    const registerContainer = document.getElementById("registerContainer");
-    
-    loginForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        
-        const username = document.getElementById("username").value;
-        const password = document.getElementById("password").value;
-        
-        if (username.startsWith("admin")) {
-            userRoleSpan.textContent = "Admin";
-            adminPanel.classList.remove("hidden");
-            userPanel.classList.add("hidden");
-        } else {
-            userRoleSpan.textContent = "User";
-            userPanel.classList.remove("hidden");
-            adminPanel.classList.add("hidden");
+document.addEventListener("DOMContentLoaded", () => {
+    // Setup login handlers
+    setupLogin("adminLoginForm", true);
+    setupLogin("loginForm", false);
+  });
+  
+  // Generic login function
+  function setupLogin(formId, isAdmin) {
+    const form = document.getElementById(formId);
+    if (!form) return;
+  
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+  
+      const email = form.querySelector('input[type="text"]').value;
+      const password = form.querySelector('input[type="password"]').value;
+  
+      const payload = {
+        userID: email,
+        password: password,
+        isAdmin: isAdmin
+      };
+  
+      try {
+        const response = await fetch("http://localhost:5000/api/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+  
+        const data = await response.json();
+  
+        if (!response.ok) {
+          alert(data.error || "Login failed");
+          return;
         }
-        
-        document.querySelector(".login-container").classList.add("hidden");
-        dashboard.classList.remove("hidden");
+  
+        alert("Login successful!");
+  
+        // Redirect based on user type
+        if (isAdmin) {
+          window.location.href = "admin.html";
+        } else {
+          window.location.href = "user-dashboard.html"; // You can create this next
+        }
+      } catch (error) {
+        alert("Error during login: " + error.message);
+      }
     });
-    
-    document.querySelector("#userPanel button").addEventListener("click", function() {
-        const searchQuery = document.querySelector("#userPanel input").value;
-        alert("Searching for: " + searchQuery);
-    });
-    
-    document.getElementById("registerButton").addEventListener("click", function() {
-        registerContainer.classList.remove("hidden");
-    });
-    
-    registerForm.addEventListener("submit", function(event) {
-        event.preventDefault();
-        const studentName = document.getElementById("studentName").value;
-        const studentID = document.getElementById("studentID").value;
-        const studentBranch = document.getElementById("studentBranch").value;
-        alert("Student Registered: " + studentName + " (" + studentID + ")");
-        registerContainer.classList.add("hidden");
-    });
-});
+  }
+  
