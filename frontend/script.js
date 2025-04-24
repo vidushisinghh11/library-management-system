@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("adminLoginForm");
-  if (!form) return;
+  const popup = document.getElementById("successPopup");
+
+  if (!form || !popup) return;
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const email = document.getElementById("adminEmail").value;
+    const email = document.getElementById("adminEmail").value.trim();
     const password = document.getElementById("adminPassword").value;
 
     try {
@@ -18,20 +20,31 @@ document.addEventListener("DOMContentLoaded", () => {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.error || "Login failed.");
+        popup.textContent = data.error || "Login failed.";
+        popup.style.backgroundColor = "#f8d7da"; // red background for error
+        popup.style.color = "#721c24";
+        popup.classList.remove("hidden");
+        setTimeout(() => popup.classList.add("hidden"), 2500);
         return;
       }
 
       // Show success popup
-      const popup = document.getElementById("successPopup");
+      popup.textContent = "✅ Login successful! Redirecting...";
+      popup.style.backgroundColor = "#e6fff1";
+      popup.style.color = "#2c7a4b";
       popup.classList.remove("hidden");
-      // Redirect after short delay
+
+      // Redirect after delay
       setTimeout(() => {
         window.location.href = "admin.html";
-      }, 1500);
+      }, 2000);
 
     } catch (err) {
-      alert("Network error: " + err.message);
+      popup.textContent = "⚠️ Network error: " + err.message;
+      popup.style.backgroundColor = "#f8d7da";
+      popup.style.color = "#721c24";
+      popup.classList.remove("hidden");
+      setTimeout(() => popup.classList.add("hidden"), 3000);
     }
   });
 });
