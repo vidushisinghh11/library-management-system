@@ -1,91 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasyLib: Library Organizer</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        .container {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-        .login-container {
-            flex: 1;
-            max-width: 400px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            text-align: center;
-        }
-        .signup-link {
-            margin-top: 10px;
-            display: block;
-            color: blue;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EasyLib: Admin Login</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .centered-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 80vh;
+    }
+    .signup-link {
+      margin-top: 15px;
+      display: block;
+      color: #002244;
+      font-weight: bold;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-    <div class="intro">
-        <h1 id="title">EasyLib: Library Organizer</h1>
+  <div class="intro">
+    <h1 id="title">EasyLib: Admin Login</h1>
+  </div>
+
+  <div class="centered-container">
+    <div class="login-container">
+      <h2>Admin Login</h2>
+      <form id="adminLoginForm">
+        <input type="text" id="adminEmail" placeholder="Admin Email" required />
+        <input type="password" id="adminPassword" placeholder="Password" required />
+        <button type="submit">Login</button>
+      </form>
+      <a class="signup-link" href="register.html">Need an account? Register</a>
     </div>
-    <div class="container">
-        <div class="login-container">
-            <h2>Admin Login</h2>
-            <form id="adminLoginForm">
-                <input type="text" id="adminID" placeholder="Admin ID" required>
-                <input type="password" id="adminPassword" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-        </div>
-    
-        <div class="login-container">
-            <h2>Login / Signup</h2>
-            <form id="loginForm">
-                <input type="text" id="username" placeholder="User ID" required>
-                <input type="password" id="password" placeholder="Password" required>
-                <button type="submit">Login</button>
-            </form>
-            <a class="signup-link" onclick="openRegisterTab()">Need an account? Sign up</a>
-        </div>
+  </div>
+
+  <div id="successPopup" class="popup hidden">
+    <div class="popup-content">
+      <p>✅ Login successful!</p>
     </div>
+  </div>
+  
 
-    <script>
-        async function login(formId, isAdmin) {
-          const form = document.getElementById(formId);
-          form.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            const payload = {
-              userID:   form.querySelector('input[type="text"]').value,
-              password: form.querySelector('input[type="password"]').value,
-              isAdmin
-            };
-            const res = await fetch('/api/users/login', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-            });
-            const data = await res.json();
-            if (!res.ok) return alert(data.error);
-        
-            // on success, redirect based on role
-            if (isAdmin) window.location.href = 'admin.html';
-            else         window.location.href = 'user-dashboard.html'; // create later
-          });
-        }
-        
-        login('adminLoginForm', true);
-        login('loginForm', false);
-        
-        function openRegisterTab() {
-          window.location.href = 'register.html';
-        }
-    </script>
-
-    <script src="script.js"></script>
-
+  <!-- ✅ External script handles login logic -->
+  <script src="script.js"></script>
 </body>
 </html>

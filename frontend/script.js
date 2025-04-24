@@ -1,53 +1,37 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // Setup login handlers
-    setupLogin("adminLoginForm", true);
-    setupLogin("loginForm", false);
-  });
-  
-  // Generic login function
-  function setupLogin(formId, isAdmin) {
-    const form = document.getElementById(formId);
-    if (!form) return;
-  
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-  
-      const email = form.querySelector('input[type="text"]').value;
-      const password = form.querySelector('input[type="password"]').value;
-  
-      const payload = {
-        userID: email,
-        password: password,
-        isAdmin: isAdmin
-      };
-  
-      try {
-        const response = await fetch("http://localhost:5000/api/users/login", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-  
-        const data = await response.json();
-  
-        if (!response.ok) {
-          alert(data.error || "Login failed");
-          return;
-        }
-  
-        alert("Login successful!");
-  
-        // Redirect based on user type
-        if (isAdmin) {
-          window.location.href = "admin.html";
-        } else {
-          window.location.href = "user-dashboard.html"; // You can create this next
-        }
-      } catch (error) {
-        alert("Error during login: " + error.message);
+  const form = document.getElementById("adminLoginForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const email = document.getElementById("adminEmail").value;
+    const password = document.getElementById("adminPassword").value;
+
+    try {
+      const res = await fetch("http://localhost:5000/api/admins/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Login failed.");
+        return;
       }
-    });
-  }
-  
+
+      // Show success popup
+      const popup = document.getElementById("successPopup");
+      popup.classList.remove("hidden");
+      // Redirect after short delay
+      setTimeout(() => {
+        window.location.href = "admin.html";
+      }, 1500);
+
+    } catch (err) {
+      alert("Network error: " + err.message);
+    }
+  });
+});

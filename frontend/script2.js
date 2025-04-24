@@ -7,6 +7,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetchBooks(); // Load existing books from the backend
 });
+const adminName = localStorage.getItem("adminName");
+if (adminName) {
+    document.getElementById("welcomeMsg").textContent = `Welcome, ${adminName}`;
+}
+
+
 
 function fetchBooks() {
     fetch(API_BASE)
