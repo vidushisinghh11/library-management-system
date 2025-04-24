@@ -90,23 +90,31 @@ input {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #d4edda;
-    color: #155724;
-    padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    transform: translate(-50%, -50%) scale(1);
+    background-color: #e6fff1;
+    color: #2c7a4b;
+    padding: 30px 50px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    opacity: 1;
+    animation: popupFadeIn 0.5s ease forwards;
   }
   
-  .popup-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .hidden {
+  .popup.hidden {
     display: none;
+  }
+  
+  @keyframes popupFadeIn {
+    from {
+      transform: translate(-50%, -50%) scale(0.9);
+      opacity: 0;
+    }
+    to {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
   }
   
