@@ -41,14 +41,14 @@ function addBook() {
     const ISBN = document.getElementById("bookISBN").value;
     const Quantity = document.getElementById("bookQuantity").value;
 
-    if (!Title || !Author || !Genre || !ISBN || !PublishedYear || !Quantity) {
+    if (!Title || !Author || !Genre || !ISBN || !Quantity) {
         return alert("Please fill in all the fields.");
     }
 
     fetch(API_BASE, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ Title, Author, Genre, ISBN, PublishedYear, Quantity })
+        body: JSON.stringify({ Title, Author, Genre, ISBN, Quantity }) // ✅ no PublishedYear
     })
     .then(res => res.text())
     .then(msg => {
@@ -59,11 +59,11 @@ function addBook() {
         document.getElementById("authorName").value = "";
         document.getElementById("bookGenre").value = "";
         document.getElementById("bookISBN").value = "";
-        document.getElementById("bookYear").value = "";
         document.getElementById("bookQuantity").value = "";
     })
     .catch(err => console.error("Error adding book:", err));
 }
+
 
 
 function editBook(button) {
@@ -134,7 +134,7 @@ function deleteBookByName() {
   }
   
 
-function updateBook() {
+  function updateBook() {
     const oldTitle = document.getElementById("updateBookName").value;
     const newTitle = document.getElementById("newBookName").value;
     const newAuthor = document.getElementById("newAuthorName").value;
@@ -155,7 +155,6 @@ function updateBook() {
                     Author: newAuthor,
                     Genre: "",
                     ISBN: `TEMP-${BookID}`,
-                    PublishedYear: 2024,
                     Quantity: 1
                 })
             })
