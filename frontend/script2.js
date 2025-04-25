@@ -93,20 +93,42 @@ function editBook(button) {
     .catch(err => console.error("Error updating book:", err));
 }
 
-function deleteBook(button) {
-    const row = button.parentNode.parentNode;
-    const BookID = row.getAttribute("data-id");
-
-    fetch(`${API_BASE}/${BookID}`, {
-        method: "DELETE"
+function deleteBookByName() {
+    const name = document.getElementById("deleteBookName").value.trim();
+  
+    if (!name) {
+      alert("Please enter a book name to delete.");
+      return;
+    }
+  
+    fetch(`http://localhost:5000/api/books/deleteByName/${encodeURIComponent(name)}`, {
+      method: "DELETE"
     })
-    .then(res => res.text())
-    .then(msg => {
-        alert(msg);
-        fetchBooks();
-    })
-    .catch(err => console.error("Error deleting book:", err));
-}
+      .then(res => res.json())
+      .then(data => {
+        if (data.message) {
+          showDeletePopup();
+          fetchBooks(); // Refresh book list
+        } else {
+          alert(data.error || "Book not found.");
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("An error occurred while deleting the book.");
+      });
+  }
+  
+  // ✅ Show popup for delete success
+  function showDeletePopup() {
+    const popup = document.getElementById("deletePopup");
+    popup.classList.add("show");
+  
+    setTimeout(() => {
+      popup.classList.remove("show");
+    }, 2000);
+  }
+  
 
 function updateBook() {
     const oldTitle = document.getElementById("updateBookName").value;

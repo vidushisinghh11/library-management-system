@@ -1,153 +1,129 @@
+/* General body style */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #ADBBDA;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    animation: fadeIn 1.5s ease-in-out;
+  font-family: Arial, sans-serif;
+  background-color: #ADBBDA;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  animation: fadeIn 1.5s ease-in-out;
 }
 
+/* Fade-in animation */
 @keyframes fadeIn {
-    0% { opacity: 0; transform: scale(0.9); }
-    50% { opacity: 0.5; transform: scale(1.02); }
-    100% { opacity: 1; transform: scale(1); }
+  0% { opacity: 0; transform: scale(0.9); }
+  50% { opacity: 0.5; transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
 }
 
+/* Animated title intro */
 .intro h1 {
-    font-size: 3em;
-    color: #254E58;
-    animation: slideIn 2s ease-in-out;
-    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  font-size: 3em;
+  color: #254E58;
+  animation: slideIn 2s ease-in-out;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 @keyframes slideIn {
-    0% { transform: translateY(-100px); opacity: 0; }
-    50% { transform: translateY(10px); opacity: 0.7; }
-    100% { transform: translateY(0); opacity: 1; }
+  0% { transform: translateY(-100px); opacity: 0; }
+  50% { transform: translateY(10px); opacity: 0.7; }
+  100% { transform: translateY(0); opacity: 1; }
 }
 
+/* Buttons */
 button {
-    background-color: #254E58;
-    color: white;
-    padding: 12px 24px;
-    margin: 10px;
-    border: none;
-    cursor: pointer;
-    font-size: 1.1em;
-    border-radius: 8px;
-    transition: 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
-    animation: bounceIn 1.5s ease-in-out;
+  background-color: #254E58;
+  color: white;
+  padding: 12px 24px;
+  margin: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1em;
+  border-radius: 8px;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  animation: bounceIn 1.5s ease-in-out;
 }
 
 @keyframes bounceIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    50% { transform: scale(1.1); opacity: 0.7; }
-    100% { transform: scale(1); opacity: 1; }
+  0% { transform: scale(0.8); opacity: 0; }
+  50% { transform: scale(1.1); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
 button:hover {
-    background-color: #AFDDE5;
-    transform: scale(1.1);
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
+  background-color: #AFDDE5;
+  transform: scale(1.1);
+  box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
 }
 
 button i {
-    font-size: 1.2em;
+  font-size: 1.2em;
 }
 
+/* Icon styles using FontAwesome (if included) */
 #adminPanel button:nth-child(1)::before { content: "\f044"; font-family: FontAwesome; }
 #adminPanel button:nth-child(2)::before { content: "\f02d"; font-family: FontAwesome; }
 #adminPanel button:nth-child(3)::before { content: "\f067"; font-family: FontAwesome; }
 #adminPanel button:nth-child(4)::before { content: "\f1f8"; font-family: FontAwesome; }
 
+/* Login form */
 .login-container {
-    background: #8697C4;
-    padding: 25px;
-    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
-    border-radius: 12px;
-    width: 320px;
-    margin: 50px auto;
+  background: #8697C4;
+  padding: 25px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  width: 320px;
+  margin: 50px auto;
 }
 
 input {
-    width: 80%;
-    padding: 12px;
-    margin: 12px 0;
-    border: 1px solid #ddd;
-    border-radius: 6px;
+  width: 80%;
+  padding: 12px;
+  margin: 12px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
 }
 
+/* Utility */
 .hidden {
-    display: none;
+  display: none;
 }
 
+/* 🔔 Unified popup style (for both login + delete confirmation) */
 .popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(1);
-    background-color: #e6fff1;
-    color: #2c7a4b;
-    padding: 30px 50px;
-    border-radius: 15px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    font-size: 1.4rem;
-    font-weight: bold;
-    opacity: 1;
-    animation: popupFadeIn 0.5s ease forwards;
-  }
-  
-  .popup.hidden {
-    display: none;
-  }
-  
-  @keyframes popupFadeIn {
-    from {
-      transform: translate(-50%, -50%) scale(0.9);
-      opacity: 0;
-    }
-    to {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-    }
-  }
-  
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  background-color: #fff3cd; /* change to #e6fff1 for success, or toggle in JS */
+  color: #856404;
+  padding: 30px 50px;
+  border-radius: 15px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  font-size: 1.3rem;
+  font-weight: bold;
+  opacity: 1;
+  max-width: 90%;
+  width: 350px;
+  animation: popupFadeIn 0.5s ease forwards;
+}
 
-  .popup {
-    position: fixed;
-    top: 50%;
-    left: 50%;
+.popup.hidden {
+  display: none;
+}
+
+@keyframes popupFadeIn {
+  from {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+  }
+  to {
     transform: translate(-50%, -50%) scale(1);
-    background-color: #fff3cd;
-    color: #856404;
-    padding: 30px 50px;
-    border-radius: 15px;
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
-    z-index: 1000;
-    font-size: 1.4rem;
-    font-weight: bold;
     opacity: 1;
-    animation: popupFadeIn 0.5s ease forwards;
   }
-  
-  .popup.hidden {
-    display: none;
-  }
-  
-  @keyframes popupFadeIn {
-    from {
-      transform: translate(-50%, -50%) scale(0.9);
-      opacity: 0;
-    }
-    to {
-      transform: translate(-50%, -50%) scale(1);
-      opacity: 1;
-    }
-  }
-  
+}
