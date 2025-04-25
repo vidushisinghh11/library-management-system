@@ -11,8 +11,8 @@ exports.getBooks = (req, res) => {
 // Add a book
 exports.addBook = (req, res) => {
     const { Title, Author, Genre, ISBN, PublishedYear, Quantity } = req.body;
-    const sql = 'INSERT INTO Books (Title, Author, Genre, ISBN, PublishedYear, Quantity) VALUES (?, ?, ?, ?, ?, ?)';
-    db.query(sql, [Title, Author, Genre, ISBN, PublishedYear, Quantity], (err, result) => {
+    const sql = 'INSERT INTO Books (Title, Author, Genre, ISBN, Quantity) VALUES (?, ?, ?, ?, ?)';
+    db.query(sql, [Title, Author, Genre, ISBN, Quantity], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send("Book added successfully!");
     });
@@ -22,8 +22,8 @@ exports.addBook = (req, res) => {
 exports.updateBook = (req, res) => {
     const BookID = req.params.id;
     const { Title, Author, Genre, ISBN, PublishedYear, Quantity } = req.body;
-    const sql = 'UPDATE Books SET Title = ?, Author = ?, Genre = ?, ISBN = ?, PublishedYear = ?, Quantity = ? WHERE BookID = ?';
-    db.query(sql, [Title, Author, Genre, ISBN, PublishedYear, Quantity, BookID], (err, result) => {
+    const sql = 'UPDATE Books SET Title = ?, Author = ?, Genre = ?, ISBN = ?, Quantity = ? WHERE BookID = ?';
+    db.query(sql, [Title, Author, Genre, ISBN, Quantity, BookID], (err, result) => {
         if (err) return res.status(500).send(err);
         res.send("Book updated successfully!");
     });

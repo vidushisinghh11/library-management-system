@@ -37,30 +37,34 @@ function fetchBooks() {
 function addBook() {
     const Title = document.getElementById("bookName").value;
     const Author = document.getElementById("authorName").value;
+    const Genre = document.getElementById("bookGenre").value;
+    const ISBN = document.getElementById("bookISBN").value;
+    const Quantity = document.getElementById("bookQuantity").value;
 
-    if (!Title || !Author) return alert("Please fill in both fields.");
+    if (!Title || !Author || !Genre || !ISBN || !PublishedYear || !Quantity) {
+        return alert("Please fill in all the fields.");
+    }
 
     fetch(API_BASE, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            Title,
-            Author,
-            // Genre: "",             // Optional or extend later
-            ISBN: `TEMP-${Date.now()}`, // Temp ISBN
-            PublishedYear: 2024,   // Default
-            Quantity: 1            // Default quantity
-        })
+        body: JSON.stringify({ Title, Author, Genre, ISBN, PublishedYear, Quantity })
     })
     .then(res => res.text())
     .then(msg => {
         alert(msg);
         fetchBooks();
+        // Reset fields
         document.getElementById("bookName").value = "";
         document.getElementById("authorName").value = "";
+        document.getElementById("bookGenre").value = "";
+        document.getElementById("bookISBN").value = "";
+        document.getElementById("bookYear").value = "";
+        document.getElementById("bookQuantity").value = "";
     })
     .catch(err => console.error("Error adding book:", err));
 }
+
 
 function editBook(button) {
     const row = button.parentNode.parentNode;
