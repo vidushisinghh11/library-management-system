@@ -52,7 +52,7 @@ function addBook() {
     })
     .then(res => res.text())
     .then(msg => {
-        alert(msg);
+        showPopup("✅ Book added successfully!");
         fetchBooks();
         // Reset fields
         document.getElementById("bookName").value = "";
@@ -61,6 +61,7 @@ function addBook() {
         document.getElementById("bookISBN").value = "";
         document.getElementById("bookQuantity").value = "";
     })
+    
     .catch(err => console.error("Error adding book:", err));
 }
 
@@ -160,12 +161,13 @@ function deleteBookByName() {
             })
             .then(res => res.text())
             .then(msg => {
-                alert(msg);
+                showPopup("✏️ Book updated successfully!");
                 fetchBooks();
                 document.getElementById("updateBookName").value = "";
                 document.getElementById("newBookName").value = "";
                 document.getElementById("newAuthorName").value = "";
-            });
+            })
+            
             break;
         }
     }
@@ -187,14 +189,30 @@ function deleteBookByName() {
                 method: "DELETE"
             })
             .then(res => res.text())
-            .then(msg => {
-                alert(msg);
-                fetchBooks();
-                document.getElementById("deleteBookName").value = "";
-            });
+            .then(data => {
+                if (data.message) {
+                  showPopup("🗑️ Book deleted successfully!");
+                  fetchBooks();
+                } else {
+                  alert(data.error || "Book not found.");
+                }
+            })
+            
             break;
         }
     }
 
     if (!found) alert("Book not found!");
 }
+
+function showPopup(message) {
+    const popup = document.getElementById("successPopup");
+    const popupText = document.getElementById("popupMessage");
+    popupText.textContent = message;
+    popup.classList.add("show");
+  
+    setTimeout(() => {
+      popup.classList.remove("show");
+    }, 2000); // 2 seconds
+  }
+  
