@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Redirect after delay
       setTimeout(() => {
-        window.location.href = "admin.html";
+        window.location.href = "dashboard.html";
       }, 2000);
 
     } catch (err) {
