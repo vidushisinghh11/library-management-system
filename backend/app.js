@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const bookRoutes = require('./routes/books');
 const adminRoutes = require('./routes/admins');
+const transactionRoutes = require('./routes/transactions');
+
 
 require('dotenv').config();
 
@@ -20,6 +22,9 @@ app.use('/api/admins', adminRoutes);
 
 // Serve frontend (static files)
 app.use(express.static(path.join(__dirname, '..', 'public')));
+
+app.use('/api/transaction', transactionRoutes);
+
 
 // Start server
 app.listen(5000, () => {
