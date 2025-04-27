@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api/transactions";
+const API_BASE = "http://localhost:5000/api/transaction";
 
 // Issue Book
 document.getElementById('issue-form').addEventListener('submit', async (e) => {
@@ -38,7 +38,7 @@ document.getElementById('return-form').addEventListener('submit', async (e) => {
 
   try {
     const res = await fetch(`${API_BASE}/return`, {
-      method: 'POST', // NOT PUT — POST with transactionID in body
+      method: 'POST', // ✅ Correct: POST method
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ transactionID, returnDate })
     });
