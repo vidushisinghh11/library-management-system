@@ -98,42 +98,62 @@ function editBook(button) {
     .catch(err => console.error("Error updating book:", err));
 }
 
-function deleteBookByName() {
-    const name = document.getElementById("deleteBookName").value.trim();
-  
-    if (!name) {
-      alert("Please enter a book name to delete.");
-      return;
+function deleteBookByTitle() {
+    const title = document.getElementById("deleteBookName").value.trim();
+    if (!title) {
+        return alert("Please enter a book title to delete.");
     }
-  
-    fetch(`http://localhost:5000/api/books/deleteByName/${encodeURIComponent(name)}`, {
-      method: "DELETE"
+
+    if (!confirm(`Are you sure you want to delete the book "${title}"?`)) return;
+
+    fetch(`http://localhost:5000/api/books/deleteByName/${encodeURIComponent(title)}`, {
+        method: 'DELETE',
     })
-      .then(res => res.json())
-      .then(data => {
-        if (data.message) {
-          showDeletePopup();
-          fetchBooks(); // Refresh book list
-        } else {
-          alert(data.error || "Book not found.");
-        }
-      })
-      .catch(err => {
-        console.error(err);
-        alert("An error occurred while deleting the book.");
-      });
-  }
+    .then(response => {
+        if (!response.ok) throw new Error("Delete failed");
+        return response.json();
+    })
+    .then(data => {
+        alert(data.message);
+        fetchBooks(); // Refresh list
+        document.getElementById("deleteBookName").value = "";
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to delete book');
+    });
+}
+
+
+
   
-  // ✅ Show popup for delete success
-  function showDeletePopup() {
-    const popup = document.getElementById("deletePopup");
-    popup.classList.add("show");
-  
-    setTimeout(() => {
-      popup.classList.remove("show");
-    }, 2000);
-  }
-  
+//   ✅ Show popup for delete success
+function deleteBookByTitle() {
+    const title = document.getElementById("deleteBookName").value.trim();
+    if (!title) {
+        return alert("Please enter a book title to delete.");
+    }
+
+    if (!confirm(`Are you sure you want to delete the book "${title}"?`)) return;
+
+    fetch(`${API_BASE}/deleteByName/${encodeURIComponent(title)}`, {
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Delete failed");
+        return response.json();
+    })
+    .then(data => {
+        alert(data.message);
+        fetchBooks();
+        document.getElementById("deleteBookName").value = "";
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to delete book');
+    });
+}
+
 
   function updateBook() {
     const oldTitle = document.getElementById("updateBookName").value;
@@ -175,35 +195,6 @@ function deleteBookByName() {
     if (!found) alert("Book not found!");
 }
 
-function deleteBookByName() {
-    const bookNameToDelete = document.getElementById("deleteBookName").value;
-    const table = document.getElementById("bookList");
-    let found = false;
-
-    for (let row of table.rows) {
-        if (row.cells[0].textContent === bookNameToDelete) {
-            found = true;
-            const BookID = row.getAttribute("data-id");
-
-            fetch(`${API_BASE}/${BookID}`, {
-                method: "DELETE"
-            })
-            .then(res => res.text())
-            .then(data => {
-                if (data.message) {
-                  showPopup("🗑️ Book deleted successfully!");
-                  fetchBooks();
-                } else {
-                  alert(data.error || "Book not found.");
-                }
-            })
-            
-            break;
-        }
-    }
-
-    if (!found) alert("Book not found!");
-}
 
 function showPopup(message) {
     const popup = document.getElementById("successPopup");

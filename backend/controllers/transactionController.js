@@ -52,13 +52,30 @@ exports.returnBook = (req, res) => {
 
 // 📄 Fetch All Transaction History
 exports.getTransactions = (req, res) => {
-  const sql = `SELECT * FROM AdminTransactions`;
+  const sql = `SELECT * FROM Transactions`;
 
   db.query(sql, (err, results) => {
     if (err) {
       console.error("Error fetching transactions:", err);
       return res.status(500).json({ error: "Database error!" });
     }
+    
+    // Log the results to see the returned data
+    console.log("Fetched transactions:", results);
+
     res.json(results);
   });
 };
+
+
+// app.get('/transaction-history', (req, res) => {
+//   const query = 'SELECT * FROM transactions'; // Example query
+//   db.query(query, (err, results) => {
+//       if (err) {
+//           console.error(err);
+//           res.status(500).send('Error fetching transaction history');
+//           return;
+//       }
+//       res.render('transaction-history', { transactions: results });
+//   });
+// });

@@ -1,4 +1,5 @@
 const API_BASE = "http://localhost:5000/api/transaction";
+document.addEventListener('DOMContentLoaded', fetchTransactions);
 
 // Issue Book
 document.getElementById('issue-form').addEventListener('submit', async (e) => {
@@ -61,9 +62,16 @@ async function fetchTransactions() {
   try {
     const res = await fetch(`${API_BASE}`);
     const transactions = await res.json();
-
+    
+    // Log the transactions data to check what is returned
+    console.log("Transactions data:", transactions);
+    
     const tableBody = document.querySelector("#transaction-table tbody");
     tableBody.innerHTML = "";
+
+    if (transactions.length === 0) {
+      console.log("No transactions found.");
+    }
 
     transactions.forEach(t => {
       const row = document.createElement("tr");
@@ -75,7 +83,7 @@ async function fetchTransactions() {
         <td>${t.DueDate}</td>
         <td>${t.ReturnDate || '-'}</td>
         <td>${t.Status}</td>
-        <td>₹${t.Fine.toFixed(2)}</td>
+        <td>₹${parseFloat(t.Fine).toFixed(2)}</td>
       `;
       tableBody.appendChild(row);
     });
@@ -83,6 +91,7 @@ async function fetchTransactions() {
     console.error("Error loading transactions:", err);
   }
 }
+
 
 // Popup function
 function showPopup(message) {
