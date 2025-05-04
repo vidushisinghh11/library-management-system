@@ -77,8 +77,8 @@ async function fetchTransactions() {
       const row = document.createElement("tr");
       row.innerHTML = `
         <td>${t.TransactionID}</td>
-        <td>${t.Name}</td>
-        <td>${t.Title}</td>
+        <td>${t.AdminName}</td>
+        <td>${t.BookTitle}</td>
         <td>${t.IssueDate}</td>
         <td>${t.DueDate}</td>
         <td>${t.ReturnDate || '-'}</td>

@@ -7,6 +7,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     fetchBooks(); // Load existing books from the backend
 });
+localStorage.setItem("adminName", "AdminUser");
+
 const adminName = localStorage.getItem("adminName");
 if (adminName) {
     document.getElementById("welcomeMsg").textContent = `Welcome, ${adminName}`;
@@ -23,12 +25,9 @@ function fetchBooks() {
             data.forEach(book => {
                 const row = table.insertRow();
                 row.setAttribute("data-id", book.BookID);
-                row.insertCell(0).textContent = book.Title;
-                row.insertCell(1).textContent = book.Author;
-                row.insertCell(2).innerHTML = `
-                    <button class="edit-btn" onclick="editBook(this)">Edit</button>
-                    <button class="delete-btn" onclick="deleteBook(this)">Delete</button>
-                `;
+                row.insertCell(0).textContent = book.BookID;
+                row.insertCell(1).textContent = book.Title;
+                row.insertCell(2).innerHTML = book.Author;
             });
         })
         .catch(err => console.error("Error fetching books:", err));
@@ -104,7 +103,10 @@ function deleteBookByTitle() {
         return alert("Please enter a book title to delete.");
     }
 
-    if (!confirm(`Are you sure you want to delete the book "${title}"?`)) return;
+    if (!confirm(`Are you sure you want to delete the book "${title}"?`))
+         return;
+    console.log("Deleting book with title:", title);
+
 
     fetch(`http://localhost:5000/api/books/deleteByName/${encodeURIComponent(title)}`, {
         method: 'DELETE',
@@ -155,7 +157,7 @@ function deleteBookByTitle() {
 }
 
 
-  function updateBook() {
+function updateBook() {
     const oldTitle = document.getElementById("updateBookName").value;
     const newTitle = document.getElementById("newBookName").value;
     const newAuthor = document.getElementById("newAuthorName").value;
@@ -164,9 +166,9 @@ function deleteBookByTitle() {
     let found = false;
 
     for (let row of table.rows) {
-        if (row.cells[0].textContent === oldTitle) {
+        if (row.cells[1].textContent === oldTitle) {  // Searching by Title in the second cell
             found = true;
-            const BookID = row.getAttribute("data-id");
+            const BookID = row.getAttribute("data-id"); // Using BookID from the data-id attribute
 
             fetch(`${API_BASE}/${BookID}`, {
                 method: "PUT",
@@ -175,7 +177,7 @@ function deleteBookByTitle() {
                     Title: newTitle,
                     Author: newAuthor,
                     Genre: "",
-                    ISBN: `TEMP-${BookID}`,
+                    ISBN: `TEMP-${BookID}`, // Or update accordingly
                     Quantity: 1
                 })
             })
@@ -187,13 +189,17 @@ function deleteBookByTitle() {
                 document.getElementById("newBookName").value = "";
                 document.getElementById("newAuthorName").value = "";
             })
+            .catch(err => console.error("Error updating book:", err));
             
             break;
         }
     }
 
-    if (!found) alert("Book not found!");
+    if (!found) {
+        alert("Book not found!");
+    }
 }
+
 
 
 function showPopup(message) {

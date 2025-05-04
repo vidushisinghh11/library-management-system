@@ -52,7 +52,7 @@ exports.returnBook = (req, res) => {
 
 // 📄 Fetch All Transaction History
 exports.getTransactions = (req, res) => {
-  const sql = `SELECT * FROM Transactions`;
+  const sql = `SELECT * FROM AdminTransactions`;
 
   db.query(sql, (err, results) => {
     if (err) {
