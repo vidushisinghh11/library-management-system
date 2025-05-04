@@ -5,7 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     document.querySelector(".update-btn").addEventListener("click", updateBook);
     document.querySelector(".delete-btn").addEventListener("click", deleteBookByName);
 
-    fetchBooks(); // Load existing books from the backend
+    document.addEventListener("DOMContentLoaded", 
+        fetchBooks);
+ // Load existing books from the backend
 });
 localStorage.setItem("adminName", "AdminUser");
 
@@ -18,6 +20,7 @@ if (adminName) {
 
 function fetchBooks() {
     fetch(API_BASE)
+
         .then(res => res.json())
         .then(data => {
             const table = document.getElementById("bookList");
@@ -97,34 +100,34 @@ function editBook(button) {
     .catch(err => console.error("Error updating book:", err));
 }
 
-function deleteBookByTitle() {
-    const title = document.getElementById("deleteBookName").value.trim();
-    if (!title) {
-        return alert("Please enter a book title to delete.");
-    }
+// function deleteBookByTitle() {
+//     const title = document.getElementById("deleteBookName").value.trim();
+//     if (!title) {
+//         return alert("Please enter a book title to delete.");
+//     }
 
-    if (!confirm(`Are you sure you want to delete the book "${title}"?`))
-         return;
-    console.log("Deleting book with title:", title);
+//     if (!confirm(`Are you sure you want to delete the book "${title}"?`))
+//          return;
+//     console.log("Deleting book with title:", title);
 
 
-    fetch(`http://localhost:5000/api/books/deleteByName/${encodeURIComponent(title)}`, {
-        method: 'DELETE',
-    })
-    .then(response => {
-        if (!response.ok) throw new Error("Delete failed");
-        return response.json();
-    })
-    .then(data => {
-        alert(data.message);
-        fetchBooks(); // Refresh list
-        document.getElementById("deleteBookName").value = "";
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Failed to delete book');
-    });
-}
+//     fetch(`http://localhost:5000/api/books/deleteByName/${encodeURIComponent(title)}`, {
+//         method: 'DELETE',
+//     })
+//     .then(response => {
+//         if (!response.ok) throw new Error("Delete failed");
+//         return response.json();
+//     })
+//     .then(data => {
+//         alert(data.message);
+//         fetchBooks(); // Refresh list
+//         document.getElementById("deleteBookName").value = "";
+//     })
+//     .catch(error => {
+//         console.error('Error:', error);
+//         alert('Failed to delete book');
+//     });
+// }
 
 
 
@@ -213,3 +216,61 @@ function showPopup(message) {
     }, 2000); // 2 seconds
   }
   
+
+  function searchBooks() {
+    const input = document.getElementById("searchInput").value.toLowerCase();
+    const table = document.getElementById("bookList");
+    const rows = table.getElementsByTagName("tr");
+
+    for (let row of rows) {
+        const bookNameCell = row.cells[1]; // Book Name column
+        if (bookNameCell) {
+            const bookTitle = bookNameCell.textContent.toLowerCase();
+            row.style.display = bookTitle.includes(input) ? "" : "none";
+        }
+    }
+}
+document.addEventListener("DOMContentLoaded", () => {
+    // other listeners...
+    document.getElementById("searchToggle").addEventListener("click", () => {
+        const searchInput = document.getElementById("searchInput");
+        searchInput.style.display = searchInput.style.display === "none" ? "block" : "none";
+        searchInput.focus();
+    });
+
+    document.getElementById("searchInput").addEventListener("input", function() {
+        const filter = this.value.toLowerCase();
+        const rows = document.getElementById("bookList").getElementsByTagName("tr");
+        
+        for (let row of rows) {
+            const title = row.cells[1]?.textContent.toLowerCase();
+            row.style.display = title.includes(filter) ? "" : "none";
+        }
+    });
+});
+function loadBooks() {
+    fetch("http://localhost:5000/api/book/getAllBooks")
+        .then(res => res.json())
+        .then(books => {
+            const bookList = document.getElementById("bookList");
+            bookList.innerHTML = ""; // Clear existing
+            books.forEach(book => {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                    <td>${book.id}</td>
+                    <td>${book.title}</td>
+                    <td>${book.author}</td>
+                    <td>${book.category}</td>
+                    <td>${book.available}</td>
+                    <td>
+                        <button class="update-btn" onclick="populateForm('${book.title}')">Update</button>
+                        <button class="delete-btn" onclick="deleteBook('${book.title}')">Delete</button>
+                    </td>
+                `;
+                bookList.appendChild(row);
+            });
+        });
+}
+
+document.addEventListener("DOMContentLoaded", loadBooks);
+fetchBooks();

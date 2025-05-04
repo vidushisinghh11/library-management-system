@@ -14,4 +14,7 @@ router.put("/:id", bookController.updateBook);
 // Delete book by title
 router.delete("/deleteByName/:title", bookController.deleteBookByTitle);
 
+router.get('/getAllBooks', bookController.getAllBooks);
+
+
 module.exports = router;

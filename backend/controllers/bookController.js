@@ -38,3 +38,14 @@ exports.deleteBookByTitle = (req, res) => {
         res.json({ message: "Book deleted successfully" });
     });
 };
+
+exports.getAllBooks = (req, res) => {
+    const sql = "SELECT * FROM books"; // Adjust table name if needed
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error("Error fetching books:", err);
+            return res.status(500).json({ error: "Database error" });
+        }
+        res.json(results);
+    });
+};
